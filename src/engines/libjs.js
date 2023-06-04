@@ -40,15 +40,14 @@ class LibJSInstaller extends Installer {
       .catch(() => {
         throw new Error(`Failed to find any releases for ${artifactName} on SerenityOS/serenity`);
       });
-    const headSha = await fetch('https://api.github.com/repos/serenityos/serenity/actions/runs?event=push&branch=master&status=success')
+    const run = await fetch('https://api.github.com/repos/serenityos/serenity/actions/runs?event=push&branch=master&status=success')
       .then((x) => x.json())
       .then((x) => x.workflow_runs.filter((a) => a.name === 'Package the js repl as a binary artifact'))
-      .then((x) => x.sort((a, b) => a.check_suite_id > b.check_suite_id))
-      .then((x) => x[0].head_sha)
+      .then((x) => x.sort((a, b) => a.check_suite_id > b.check_suite_id)[0])
       .catch(() => {
         throw new Error('Failed to find any recent serenity-js build');
       });
-    return headSha; // `${runId}/${artifactId}`;
+    return `${run.check_suite_id}/${artifactId}/${run.head_sha}`;
   }
 
   getDownloadURL(version) {
