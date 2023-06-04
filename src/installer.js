@@ -112,7 +112,7 @@ class EngineInstaller {
     await installer.cleanup();
 
     status.installed[INSTALLED_ID] = {
-      version,
+      version: version.split('/').pop(),
       binEntries: installer.binEntries,
     };
 
