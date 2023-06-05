@@ -33,10 +33,9 @@ class LibJSInstaller extends Installer {
       throw new Error('LibJS only provides binary builds for \'latest\'');
     }
 
-    const artifactId = await fetch('https://api.github.com/repos/serenityos/serenity/actions/artifacts')
+    const artifact = await fetch('https://api.github.com/repos/serenityos/serenity/actions/artifacts')
       .then((x) => x.json())
-      .then((x) => x.artifacts.filter((a) => a.name === artifactName))
-      .then((x) => x[0].id)
+      .then((x) => x.artifacts.find((a) => a.name === artifactName))
       .catch(() => {
         throw new Error(`Failed to find any releases for ${artifactName} on SerenityOS/serenity`);
       });
@@ -47,12 +46,13 @@ class LibJSInstaller extends Installer {
       .catch(() => {
         throw new Error('Failed to find any recent serenity-js build');
       });
-    return `${run.check_suite_id}/${artifactId}/${run.head_sha}`;
+    return `${artifact.id}/${run.head_sha}`;
   }
 
   getDownloadURL(version) {
     const ids = version.split('/');
-    return `https://nightly.link/serenityos/serenity/suites/${ids[0]}/artifacts/${ids[1]}`;
+    return `https://api.github.com/repos/serenityos/serenity/actions/artifacts/${ids[0]}/zip`;
+    // return `https://nightly.link/serenityos/serenity/suites/${ids[0]}/artifacts/${ids[1]}`;
   }
 
   async extract() {
