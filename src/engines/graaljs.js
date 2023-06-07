@@ -73,7 +73,8 @@ class GraalJSInstaller extends Installer {
 
   static async resolveVersion(version) {
     if (version === 'latest') {
-      const releases = await fetch('https://api.github.com/repos/oracle/graaljs/releases')
+      const headers = process.env.GITHUB_TOKEN ? { Authorization: `Bearer ${process.env.GITHUB_TOKEN}` } : {};
+      const releases = await fetch('https://api.github.com/repos/oracle/graaljs/releases', { headers })
         .then((r) => r.json());
       const versions = releases
         .filter((b) => !b.prerelease)

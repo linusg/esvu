@@ -63,7 +63,8 @@ class EngineInstaller {
 
     const url = await installer.getDownloadURL(version);
     logger.info(`Downloading ${url}`);
-    installer.downloadPath = await fetch(url, { headers: { 'Authorization': 'Bearer ' + process.env.GITHUB_TOKEN } })
+    const headers = process.env.GITHUB_TOKEN && url.includes('github.com') ? { 'Authorization': `Bearer ${process.env.GITHUB_TOKEN}` } : {}
+    installer.downloadPath = await fetch(url, { headers })
       .then(async (r) => {
         if (!r.ok) {
           throw new Error(`Got ${r.status}`);

@@ -32,7 +32,8 @@ class XSInstaller extends Installer {
 
   static async resolveVersion(version) {
     if (version === 'latest') {
-      const body = await fetch('https://api.github.com/repos/Moddable-OpenSource/moddable/releases')
+      const headers = process.env.GITHUB_TOKEN ? { Authorization: `Bearer ${process.env.GITHUB_TOKEN}` } : {};
+      const body = await fetch('https://api.github.com/repos/Moddable-OpenSource/moddable/releases', { headers })
         .then((r) => r.json());
       return body.find((b) => !b.prerelease).tag_name;
     }
