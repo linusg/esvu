@@ -33,13 +33,13 @@ class LibJSInstaller extends Installer {
       throw new Error('LibJS only provides binary builds for \'latest\'');
     }
 
-    const artifact = await fetch('https://api.github.com/repos/serenityos/serenity/actions/artifacts')
+    const artifact = await fetch('https://api.github.com/repos/serenityos/serenity/actions/artifacts', { headers: { 'Authorization': 'Bearer ' + process.env.GITHUB_TOKEN } })
       .then((x) => x.json())
       .then((x) => x.artifacts.find((a) => a.name === artifactName))
       .catch(() => {
         throw new Error(`Failed to find any releases for ${artifactName} on SerenityOS/serenity`);
       });
-    const run = await fetch('https://api.github.com/repos/serenityos/serenity/actions/runs?event=push&branch=master&status=success')
+    const run = await fetch('https://api.github.com/repos/serenityos/serenity/actions/runs?event=push&branch=master&status=success', { headers: { 'Authorization': 'Bearer ' + process.env.GITHUB_TOKEN } })
       .then((x) => x.json())
       .then((x) => x.workflow_runs.filter((a) => a.name === 'Package the js repl as a binary artifact'))
       .then((x) => x.sort((a, b) => a.check_suite_id > b.check_suite_id)[0])
