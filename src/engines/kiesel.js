@@ -16,6 +16,14 @@ function getFilename() {
       return 'linux-x86_64';
     case 'linux-arm64':
       return 'linux-aarch64';
+    case 'linux-riscv64':
+      return 'linux-riscv64';
+    case 'win32-ia32':
+      return 'windows-x86';
+    case 'win32-x64':
+      return 'windows-x86_64';
+    case 'win32-arm64':
+      return 'windows-aarch64';
     default:
       throw new Error(`No Kiesel builds available for ${platform}`);
   }
@@ -70,6 +78,10 @@ KieselInstaller.config = {
     'linux-ia32',
     'linux-x64',
     'linux-arm64',
+    'linux-riscv64',
+    'win32-ia32',
+    'win32-x64',
+    'win32-arm64',
   ],
 };
 
