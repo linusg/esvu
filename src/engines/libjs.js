@@ -28,36 +28,35 @@ class LibJSInstaller extends Installer {
   }
 
   static async resolveVersion(version) {
-    const artifactName = `serenity-js-${getFilename()}`;
+    const artifactName = `ladybird-js-${getFilename()}`;
     if (version !== 'latest') {
       throw new Error('LibJS only provides binary builds for \'latest\'');
     }
 
-    const artifact = await fetch('https://api.github.com/repos/serenityos/serenity/actions/artifacts', { headers: { 'Authorization': 'Bearer ' + process.env.GITHUB_TOKEN } })
+    const artifact = await fetch('https://api.github.com/repos/ladybirdbrowser/ladybird/actions/artifacts', { headers: { 'Authorization': 'Bearer ' + process.env.GITHUB_TOKEN } })
       .then((x) => x.json())
       .then((x) => x.artifacts.find((a) => a.name === artifactName))
       .catch(() => {
-        throw new Error(`Failed to find any releases for ${artifactName} on SerenityOS/serenity`);
+        throw new Error(`Failed to find any artifacts for ${artifactName} on ladybirdbrowser/ladybird`);
       });
-    const run = await fetch('https://api.github.com/repos/serenityos/serenity/actions/runs?event=push&branch=master&status=success', { headers: { 'Authorization': 'Bearer ' + process.env.GITHUB_TOKEN } })
+    const run = await fetch('https://api.github.com/repos/ladybirdbrowser/ladybird/actions/runs?event=push&branch=master&status=success', { headers: { 'Authorization': 'Bearer ' + process.env.GITHUB_TOKEN } })
       .then((x) => x.json())
       .then((x) => x.workflow_runs.filter((a) => a.name === 'Package the js repl as a binary artifact'))
       .then((x) => x.sort((a, b) => a.check_suite_id > b.check_suite_id)[0])
       .catch(() => {
-        throw new Error('Failed to find any recent serenity-js build');
+        throw new Error('Failed to find any recent ladybird-js build');
       });
     return `${artifact.id}/${run.head_sha}`;
   }
 
   getDownloadURL(version) {
     const ids = version.split('/');
-    return `https://api.github.com/repos/serenityos/serenity/actions/artifacts/${ids[0]}/zip`;
-    // return `https://nightly.link/serenityos/serenity/suites/${ids[0]}/artifacts/${ids[1]}`;
+    return `https://api.github.com/repos/ladybirdbrowser/ladybird/actions/artifacts/${ids[0]}/zip`;
   }
 
   async extract() {
     await unzip(this.downloadPath, `${this.extractedPath}zip`);
-    await untar(path.join(`${this.extractedPath}zip`, `serenity-js-${getFilename()}.tar.gz`), this.extractedPath);
+    await untar(path.join(`${this.extractedPath}zip`, `ladybird-js-${getFilename()}.tar.gz`), this.extractedPath);
   }
 
   async install() {
