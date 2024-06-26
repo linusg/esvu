@@ -17,7 +17,7 @@ function getFilename() {
     case 'linux-x64':
       return 'boa-linux-amd64';
     case 'win32-x64':
-      return 'boa-windows-amd64';
+      return 'boa-windows-amd64.exe';
     default:
       throw new Error(`No Boa builds available for ${platform}`);
   }
