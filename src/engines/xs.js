@@ -71,7 +71,6 @@ XSInstaller.config = {
   id: 'xs',
   supported: [
     'linux-arm64', 'linux-x64',
-    'win32-x64',
     'darwin-arm64', 'darwin-x64',
   ],
 };
