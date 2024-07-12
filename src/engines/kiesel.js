@@ -10,6 +10,10 @@ const { platform, ensureDirectory } = require('../common');
 
 function getFilename() {
   switch (platform) {
+    case 'darwin-x64':
+      return 'macos-x86_64';
+    case 'darwin-arm64':
+      return 'macos-aarch64';
     case 'linux-ia32':
       return 'linux-x86';
     case 'linux-x64':
