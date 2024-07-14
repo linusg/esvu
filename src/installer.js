@@ -14,10 +14,10 @@ const Logger = require('./logger');
 
 const DL_FILE_PREFIX = 'esvu-';
 
-function hash(string) {
-  const h = crypto.createHash('md5');
-  h.update(string);
-  return h.digest('hex');
+function randomId() {
+  let out = '';
+  for (let i = 0; i < 3; i++) out += Math.random().toString(16).slice(2, 14).padStart(12, '0');
+  return out;
 }
 
 class EngineInstaller {
@@ -69,7 +69,7 @@ class EngineInstaller {
           throw new Error(`Got ${r.status}`);
         }
         const rURL = new URL(r.url);
-        const l = path.join(os.tmpdir(), DL_FILE_PREFIX + hash(url) + path.extname(rURL.pathname));
+        const l = path.join(os.tmpdir(), DL_FILE_PREFIX + randomId() + path.extname(rURL.pathname));
         const sink = fs.createWriteStream(l);
         const progress = logger.progress(+r.headers.get('content-length'));
         await new Promise((resolve, reject) => {
