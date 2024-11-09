@@ -41,7 +41,7 @@ installing engines to make eshost automatically find the installed engines.
 | [GraalJS][]        | `graaljs`                        | ✅           | ✅             |              | ✅          | ✅            |              | ✅          |
 | [Hermes][]         | `hermes`                         | ✅           |                |              |             |               |              | ✅          |
 | [Kiesel][]         | `kiesel`                         | ✅           | ✅             | ✅           | ✅          | ✅            | ✅           | ✅          |
-| [LibJS][]          | `serenity-js`                    | ✅           | ✅             |              | ✅          |               |              |             |
+| [LibJS][]          | `ladybird-js`                    | ✅           | ✅             |              | ✅          |               |              |             |
 | [JavaScriptCore][] | `jsc`, `javascriptcore`          | ✅           | ✅             |              | ✅          |               |              | ✅          |
 | [QuickJS][]        | `quickjs`, `quickjs-run-test262` | ✅           |                | ✅           | ✅          |               | ✅           | ✅          |
 | [SpiderMonkey][]   | `sm`, `spidermonkey`             | ✅           | ✅             | ✅           | ✅          |               | ✅           | ✅          |
@@ -57,7 +57,7 @@ Some binaries may be exposed as batch/shell scripts to properly handling shared 
 [GraalJS]: https://github.com/graalvm/graaljs
 [Hermes]: https://hermesengine.dev
 [Kiesel]: https://kiesel.dev
-[LibJS]: https://github.com/serenityos/serenity
+[LibJS]: https://github.com/LadybirdBrowser/ladybird
 [JavaScriptCore]: https://developer.apple.com/documentation/javascriptcore
 [QuickJS]: https://bellard.org/quickjs/
 [SpiderMonkey]: https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey
