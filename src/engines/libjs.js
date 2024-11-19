@@ -33,13 +33,14 @@ class LibJSInstaller extends Installer {
       throw new Error('LibJS only provides binary builds for \'latest\'');
     }
 
-    const artifact = await fetch('https://api.github.com/repos/ladybirdbrowser/ladybird/actions/artifacts', { headers: { 'Authorization': 'Bearer ' + process.env.GITHUB_TOKEN } })
+    const headers = process.env.GITHUB_TOKEN ? { Authorization: `Bearer ${process.env.GITHUB_TOKEN}` } : {};
+    const artifact = await fetch('https://api.github.com/repos/ladybirdbrowser/ladybird/actions/artifacts', { headers })
       .then((x) => x.json())
       .then((x) => x.artifacts.find((a) => a.name === artifactName))
       .catch(() => {
         throw new Error(`Failed to find any artifacts for ${artifactName} on ladybirdbrowser/ladybird`);
       });
-    const run = await fetch('https://api.github.com/repos/ladybirdbrowser/ladybird/actions/runs?event=push&branch=master&status=success', { headers: { 'Authorization': 'Bearer ' + process.env.GITHUB_TOKEN } })
+    const run = await fetch('https://api.github.com/repos/ladybirdbrowser/ladybird/actions/runs?event=push&branch=master&status=success', { headers })
       .then((x) => x.json())
       .then((x) => x.workflow_runs.filter((a) => a.name === 'Package the js repl as a binary artifact'))
       .then((x) => x.sort((a, b) => a.check_suite_id > b.check_suite_id)[0])
